@@ -74,9 +74,6 @@ http {
       modsecurity_rules_file "/app/vendor/nginx/conf/modsec-nginx.conf";
     <% end %>
 
-    <% if ENV['HAS_SERVER_CONF'] %>
-      include servers.conf;
-    <% else %>
     server {
         server_name localhost;
         listen <%= ENV['PORT'] %>;
@@ -86,7 +83,7 @@ http {
 
         # Static file serving for CSS, JS, images
         location ~* \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-            root <%= ENV['HOME'] %>/public; # Assuming assets are in /public
+            root /home/user/app/public; # Assuming assets are in /public
             expires max;
             add_header Cache-Control public;
             try_files $uri =404;
@@ -94,11 +91,11 @@ http {
 
         # Gestion des fichiers CSS
         location ~* \.css$ {
-          root <%= ENV['HOME'] %>/public/stylesheets; # Chemin vers vos fichiers CSS
+          root /home/user/app/public/stylesheets; # Chemin vers vos fichiers CSS
           expires max;
           add_header Cache-Control public;
           try_files $uri =404;
   }
     }
-    <% end %>
+
 }

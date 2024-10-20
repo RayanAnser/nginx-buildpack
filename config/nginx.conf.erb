@@ -73,5 +73,18 @@ http {
       modsecurity_rules_file "/app/vendor/nginx/conf/modsec-nginx.conf";
     <% end %>
 
-      include servers.conf.erb;
+    server {
+        server_name localhost;
+        listen <%= ENV['PORT'] %>;
+
+        charset utf-8;
+
+        location ~* \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+            root <%= ENV['HOME'] %>/public;
+            expires max;
+            add_header Cache-Control public;
+            try_files $uri =404;
+        }
+    }
+
 }

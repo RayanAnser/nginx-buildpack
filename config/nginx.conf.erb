@@ -8,7 +8,6 @@ load_module modules/ngx_http_modsecurity_module.so;
 events {
     worker_connections  1024;
 }
-
 http {
     # Hide nginx version information.
     server_tokens off;
@@ -74,28 +73,15 @@ http {
       modsecurity_rules_file "/app/vendor/nginx/conf/modsec-nginx.conf";
     <% end %>
 
+    <% if ENV['HAS_SERVER_CONF'] %>
+      include servers.conf;
+    <% else %>
     server {
         server_name localhost;
         listen <%= ENV['PORT'] %>;
 
         charset utf-8;
         include site.conf;
-
-        # Static file serving for CSS, JS, images
-        location ~* \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-            root /home/user/app/public; # Assuming assets are in /public
-            expires max;
-            add_header Cache-Control public;
-            try_files $uri =404;
-        }
-
-        # Gestion des fichiers CSS
-        location ~* \.css$ {
-          root /home/user/app/public/stylesheets; # Chemin vers vos fichiers CSS
-          expires max;
-          add_header Cache-Control public;
-          try_files $uri =404;
-  }
     }
-
+    <% end %>
 }

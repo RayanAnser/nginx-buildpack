@@ -73,15 +73,5 @@ http {
       modsecurity_rules_file "/app/vendor/nginx/conf/modsec-nginx.conf";
     <% end %>
 
-    <% if ENV['HAS_SERVER_CONF'] %>
       include servers.conf.erb;
-    <% else %>
-    server {
-        server_name localhost;
-        listen <%= ENV['PORT'] %>;
-
-        charset utf-8;
-        include site.conf;
-    }
-    <% end %>
 }

@@ -14,11 +14,11 @@ http {
 
         charset utf-8;
 
-        root <%= ENV['HOME'] %>;
+        root app/public;
 
         # Serve static assets
         location ~* \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
-            root <%= ENV['HOME'] %>/public;
+            root app/public;
             expires max;
             add_header Cache-Control public;
             try_files $uri =404;

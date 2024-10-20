@@ -8,6 +8,7 @@ load_module modules/ngx_http_modsecurity_module.so;
 events {
     worker_connections  1024;
 }
+
 http {
     # Hide nginx version information.
     server_tokens off;
@@ -67,6 +68,14 @@ http {
       text/plain
       text/x-component;
     # text/html is always compressed by HttpGzipModule
+
+    # Static file serving for CSS, JS, images
+    location ~* \.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
+        root <%= ENV['HOME'] %>/public; # Assuming assets are in /public
+        expires max;
+        add_header Cache-Control public;
+        try_files $uri =404;
+    }
 
     <% if ENV['ENABLE_MODSECURITY'] %>
       modsecurity on;

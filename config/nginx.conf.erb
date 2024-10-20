@@ -74,7 +74,7 @@ http {
     <% end %>
 
     <% if ENV['HAS_SERVER_CONF'] %>
-      include servers.conf;
+      include servers.conf.erb;
     <% else %>
     server {
         server_name localhost;
